@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Guess the MC</title>
+    <meta name="description" content="Guess the MC is a fun, simple game to test your hip hop knowledge."/>
+
+    <!--Google font-->
+    <link href="https://fonts.googleapis.com/css?family=K2D:300,400,500,700,800" rel="stylesheet">
+
+    <!--LeafletJS files-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+    <!-- Bootstrap CSS / Color Scheme -->
+    <link rel="stylesheet" href="../static/bootstrap.css">
+    <link rel="stylesheet" href="../static/styles.css">
+
+    <script>
+    function copyToClipboard(link, event) {
+        navigator.clipboard.writeText(link)
+        // Change to copied for 2 seconds
+        event.target.innerHTML = "Copied!"
+        setTimeout(function() {
+            event.target.innerHTML = "Share the Game!"
+        }, 2000)
+    }
+    </script>
+
+</head>
+<body class="wrapper">
+    <section class="bg-gradient pt-5 pb-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 d-flex flex-row align-items-center justify-content-between">
+                 <a href="/" class="heading-brand">Guess the MC</a>
+                <button onClick="copyToClipboard('localhost:800', event)" class="btn btn-dark">Share the Game!</button>
+            </div>
+        </div>
+    </div>
+    </section>
+    <section class="bg-gradient">
+        <div class="row">
+            <div class="col-md-8 mx-auto text-center">
+                <p class="lead mb-2">You are in {{ mode }} mode. Want to switch to {{ next_mode }}? Click the button below.</p>
+                <a href="/game?mode={{next_mode}}" class="btn btn-success svg-icon">
+                    Play {{ next_mode }} Mode
+                </a>
+            </div>
+        </div>
+        <div class="row">
+      <!-- First Half -->
+      <div class="col-md-6 d-flex align-items-center justify-content-center">
+        <!-- Content for the first half -->
+        <h4>Instructions</h4>
+      </div>
+
+      <!-- Second Half -->
+      <div class="col-md-6 d-flex align-items-center justify-content-center">
+
+      </div>
+    </div>
+                    <div id="map"></div>
+              <script>
+                let map = L.map('map').setView([{{lat}}, {{lon}}], 2);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'}).addTo(map);
+
+                {{markers|safe}}
+            </script>
+    </section>
+    {% include 'footer.html' %}
+</body>
+
+</html>
