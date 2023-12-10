@@ -63,7 +63,7 @@ def study():
             continue
         if popularity is not None and element["spotify_popularity"] < int(popularity):
             continue
-        popularity = int(popularity)
+        popularity = int(popularity) if popularity is not None else None
         markers.append({
             'lat': element['location_coordinates']['lat'],
             'lon': element['location_coordinates']['lon'],
