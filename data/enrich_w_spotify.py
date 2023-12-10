@@ -1,6 +1,7 @@
 import json
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+
 JSON_FILE = 'rappers.json'
 OUTPUT_FILE = 'rappers_w_spotify.json'
 CLIENT_ID = '1401a6a765b144819acd000af10880f7'
@@ -57,4 +58,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

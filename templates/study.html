@@ -11,28 +11,32 @@
     <link href="https://fonts.googleapis.com/css?family=K2D:300,400,500,700,800" rel="stylesheet">
 
     <!--LeafletJS files-->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
 
     <!-- Bootstrap CSS / Color Scheme -->
     <link rel="stylesheet" href="../static/bootstrap.css">
     <link rel="stylesheet" href="../static/styles.css">
 
     <script>
-    function searchCriteria() {
-        var e = document.getElementById("dropdown1");
-        var location = e.options[e.selectedIndex].value;
-        var e = document.getElementById("dropdown2");
-        var artist_type = e.options[e.selectedIndex].value;
-        var e = document.getElementById("dropdown3");
-        var popularity_value = e.options[e.selectedIndex].value;
-        window.location.href = "/study?location=" + location + "&artist_type=" + artist_type + "&popularity=" + popularity_value;
-    }
+        function searchCriteria() {
+            var e = document.getElementById("dropdown1");
+            var location = e.options[e.selectedIndex].value;
+            var e = document.getElementById("dropdown2");
+            var artist_type = e.options[e.selectedIndex].value;
+            var e = document.getElementById("dropdown3");
+            var popularity_value = e.options[e.selectedIndex].value;
+            window.location.href = "/study?location=" + location + "&artist_type=" + artist_type + "&popularity=" + popularity_value;
+        }
     </script>
 
 </head>
 <body class="wrapper">
-    <section class="bg-gradient pt-5 pb-2">
+<section class="bg-gradient pt-5 pb-2">
     <div class="container">
         <div class="row">
             <div class="col-12 d-flex flex-row align-items-center justify-content-between">
@@ -42,66 +46,79 @@
             </div>
         </div>
     </div>
-    </section>
-    <section class="bg-gradient">
-        <div class="container">
+</section>
+<section class="bg-gradient">
+    <div class="container">
         <div class="row">
             <div class="col-12 d-flex flex-row align-items-center">
                 <div>
                     <h4>Welcome to Study Mode!</h4>
-                    <p>Navigate around the map, zooming in to explore hip hop artists based out of different regions around the world!
+                    <p>Navigate around the map, zooming in to explore hip hop artists based out of different regions
+                        around the world!
                         Use the filter menus to narrow down the set of artists.</p>
                 </div>
             </div>
         </div>
-            <div class="container">
-    <div class="row">
-      <div class="col-md-4 dropdown-container">
-        <label for="dropdown1">Location</label>
-        <select class="form-control" id="dropdown1">
-             <option disabled selected value> -- none selected -- </option>
-            {% for location in cities %}
-            <option value="{{ location }}" {% if location == loc %}selected{% endif %}>{{ location }}</option>
-            {% endfor %}
-        </select>
-      </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 dropdown-container">
+                    <label for="dropdown1">Location</label>
+                    <select class="form-control" id="dropdown1">
+                        <option disabled selected value> -- none selected --</option>
+                        {% for location in cities %}
+                        <option value="{{ location }}" {% if location== loc %}selected{% endif %}>{{ location }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-      <div class="col-md-4 dropdown-container">
-        <label for="dropdown2">Artist Type</label>
-        <select class="form-control" id="dropdown2">
-             <option disabled selected value> -- none selected -- </option>
-            {% for ty in artist_types %}
-            <option value="{{ ty }}" {% if artist_type == ty %}selected{% endif %}>{{ ty }}</option>
-            {% endfor %}
-        </select>
-      </div>
-              <div class="col-md-2 dropdown-container">
-        <label for="dropdown3">Min Popularity</label>
-        <select class="form-control" id="dropdown3">
-             <option disabled selected value> -- none -- </option>
-            {% for ty in range(10, 100, 10) %}
-            <option value="{{ ty }}" {% if pop == ty %}selected{% endif %}>{{ ty }}</option>
-            {% endfor %}
-        </select>
-      </div>
-              <div class="col-md-2 dropdown-container">
-                <button class="to-bottom btn btn-dark" onClick="searchCriteria()">Search</button>
-              </div>
-        </div>
+                <div class="col-md-4 dropdown-container">
+                    <label for="dropdown2">Artist Type</label>
+                    <select class="form-control" id="dropdown2">
+                        <option disabled selected value> -- none selected --</option>
+                        {% for ty in artist_types %}
+                        <option value="{{ ty }}" {% if artist_type== ty %}selected{% endif %}>{{ ty }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 dropdown-container">
+                    <label for="dropdown3">Min Popularity</label>
+                    <select class="form-control" id="dropdown3">
+                        <option disabled selected value> -- none --</option>
+                        {% for ty in range(10, 100, 10) %}
+                        <option value="{{ ty }}" {% if pop== ty %}selected{% endif %}>{{ ty }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2 dropdown-container">
+                    <button class="to-bottom btn btn-dark" onClick="searchCriteria()">Search</button>
+                </div>
+            </div>
         </div>
         <div id="map"></div>
-        <script src="../static/universal.js" ></script>
+        <script src="../static/universal.js"></script>
         <script>
 
-            {% for marker in markers %}
-              L.marker([{{ marker['lat'] }}, {{ marker['lon'] }}]).addTo(map)
-              .bindPopup("{{ marker['popup'] }} <br><iframe width=\"280\" height=\"200\"\n" +
-                  "src=\"{{marker['video']}}\">\n" +
-                  "</iframe>");
-            {% endfor %}
+            {%
+                for marker in markers %
+            }
+            L.marker([{{marker['lat']}
+            },
+            {
+                {
+                    marker['lon']
+                }
+            }
+            ]).addTo(map)
+                .bindPopup("{{ marker['popup'] }} <br><iframe width=\"280\" height=\"200\"\n" +
+                    "src=\"{{marker['video']}}\">\n" +
+                    "</iframe>");
+            {%
+                endfor %
+            }
         </script>
-    </section>
-    {% include 'footer.html' %}
+</section>
+{% include 'footer.html' %}
 </body>
 
 </html>

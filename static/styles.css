@@ -1,8 +1,8 @@
-#map{
+#map {
     /*display:block;*/
-    width:75%;
-    height:500px;
-    margin:0 auto;
+    width: 75%;
+    height: 500px;
+    margin: 0 auto;
     margin-top: 12px;
     margin-bottom: 16px;
     border: 1px solid #4dd72e;
@@ -11,9 +11,9 @@
 }
 
 .wrapper {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 .to-bottom {
@@ -21,9 +21,9 @@
 }
 
 .column {
-  flex: 1;
-  box-sizing: border-box;
-  padding: 20px;
-  border: 1px solid #ccc;
-  margin: 8px;
+    flex: 1;
+    box-sizing: border-box;
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin: 8px;
 }

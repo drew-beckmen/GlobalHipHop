@@ -11,6 +11,7 @@ app = Flask(__name__, template_folder="templates")
 DATA_PATH = 'data/rappers_w_spotify.json'
 EASY_ARTISTS_PATH = 'data/easy_rappers_w_spotify.json'
 
+
 # Index endpoint is the main page of the app
 @app.route("/", methods=["GET"])
 def index():
@@ -59,7 +60,8 @@ def study():
     for element in data:
         if location is not None and len(location) > 0 and location != element['location_city']:
             continue
-        if artist_type is not None and len(artist_type) > 0 is not None and element['categories'] is not None and artist_type not in element['categories']:
+        if artist_type is not None and len(artist_type) > 0 is not None and element[
+            'categories'] is not None and artist_type not in element['categories']:
             continue
         if popularity is not None and element["spotify_popularity"] < int(popularity):
             continue
