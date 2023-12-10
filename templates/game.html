@@ -82,23 +82,12 @@
     <script src="../static/universal.js"></script>
     <script>
 
-        {%
-            for marker in markers %
-        }
-        L.marker([{{marker['lat']}
-        },
-        {
-            {
-                marker['lon']
-            }
-        }
-        ]).addTo(map)
+        {% for marker in markers %}
+            L.marker([{{marker['lat']}}, {{ marker['lon'] }}]).addTo(map)
             .bindPopup("{{ marker['popup'] }} <br><img width=\"280\" height=\"200\"\n" +
                 "src=\"{{marker['image']}}\">\n" +
                 "</img>");
-        {%
-            endfor %
-        }
+        {% endfor %}
     </script>
 
     <script>

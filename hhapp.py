@@ -5,11 +5,14 @@ from flask import render_template
 from data.cities import CITIES
 from utils import get_artist_hint
 from data.artist_types import ARTIST_TYPES
+import os
 
 # -----------------------------------------------------------------------
 app = Flask(__name__, template_folder="templates")
-DATA_PATH = 'data/rappers_w_spotify.json'
-EASY_ARTISTS_PATH = 'data/easy_rappers_w_spotify.json'
+my_dir = os.path.dirname(__file__)
+json_file_path = os.path.join(my_dir, 'courses.json')
+DATA_PATH = os.path.join(my_dir, 'data/rappers_w_spotify.json')
+EASY_ARTISTS_PATH = os.path.join(my_dir, 'data/easy_rappers_w_spotify.json')
 
 
 # Index endpoint is the main page of the app
