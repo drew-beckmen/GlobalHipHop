@@ -5086,7 +5086,7 @@ footer a {
 
 /*Gradients*/
 .bg-gradient {
-  background: linear-gradient(#ffff00, #ffff4d); }
+  background: linear-gradient(rgba(255, 255, 0, 0.7), #ffff4d); }
 
 /*Code Window*/
 .code-window {

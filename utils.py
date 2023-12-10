@@ -1,6 +1,6 @@
 import argparse
 from typing import Any
-from geopy.geocoders import Nominatim
+
 
 def initialize_argparse(
         desc: str, positionals: Any | list[tuple] = None, optionals: Any | dict = None
@@ -19,19 +19,17 @@ def initialize_argparse(
     return parser
 
 
-def get_location_of(coo: str, data: dict[str, str]) -> tuple[str, str, str]:
-    """Function to get the country of given coordinates.
-
-    Args:
-        coo: coordinates as string ("lat, lon").
-        data: input dictionary of countries and continents.
-
-    Returns:
-        Tuple of coordinates, country and continent (or Unknown if country not found).
-
-    """
-    geolocator = Nominatim(user_agent="stackoverflow", timeout=25)
-    country: str = (
-        geolocator.reverse(coo, language="en-US").raw["display_name"].split(", ")[-1]
-    )
-    return (coo, country, data.get(country, "Unknown"))
+def get_artist_hint(artist_info: dict) -> str:
+    """Returns a hint for the artist's name."""
+    return_str = ""
+    if artist_info["categories"] is not None:
+        return_str += f"This {', '.join(artist_info['categories'])} is from {artist_info['location_city']}. "
+    if artist_info['bio_birthdate'] is not None:
+        return_str += f"They were born on {artist_info['bio_birthdate']}. "
+    if artist_info['bio_yearsactivestart'] is not None:
+        return_str += f"They began their career in {artist_info['bio_yearsactivestart']}. "
+    if artist_info['spotify_genres'] is not None:
+        return_str += f"They are known for their {', '.join(artist_info['spotify_genres'])}. "
+    if artist_info["spotify_top_tracks"] is not None:
+        return_str += f"Their top tracks are {', '.join([track['name'] for track in artist_info['spotify_top_tracks']['tracks']])}. "
+    return return_str

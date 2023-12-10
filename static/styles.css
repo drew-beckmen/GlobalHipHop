@@ -19,3 +19,11 @@
 .to-bottom {
     margin-top: 30px;
 }
+
+.column {
+  flex: 1;
+  box-sizing: border-box;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin: 8px;
+}

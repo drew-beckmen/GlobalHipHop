@@ -19,21 +19,14 @@
     <link rel="stylesheet" href="../static/styles.css">
 
     <script>
-    function copyToClipboard(link, event) {
-        navigator.clipboard.writeText(link)
-        // Change to copied for 2 seconds
-        event.target.innerHTML = "Copied!"
-        setTimeout(function() {
-            event.target.innerHTML = "Share the Game!"
-        }, 2000)
-    }
-
     function searchCriteria() {
         var e = document.getElementById("dropdown1");
         var location = e.options[e.selectedIndex].value;
         var e = document.getElementById("dropdown2");
         var artist_type = e.options[e.selectedIndex].value;
-        window.location.href = "/study?location=" + location + "&artist_type=" + artist_type;
+        var e = document.getElementById("dropdown3");
+        var popularity_value = e.options[e.selectedIndex].value;
+        window.location.href = "/study?location=" + location + "&artist_type=" + artist_type + "&popularity=" + popularity_value;
     }
     </script>
 
@@ -44,7 +37,8 @@
         <div class="row">
             <div class="col-12 d-flex flex-row align-items-center justify-content-between">
                 <a href="/" class="heading-brand">Guess the MC</a>
-                <button onClick="copyToClipboard('localhost:800', event)" class="btn btn-dark">Share the Game!</button>
+                <a href="/game" class="btn btn-dark">Go to Game!</a>
+
             </div>
         </div>
     </div>
@@ -67,7 +61,7 @@
         <select class="form-control" id="dropdown1">
              <option disabled selected value> -- none selected -- </option>
             {% for location in cities %}
-            <option value="{{ location }}">{{ location }}</option>
+            <option value="{{ location }}" {% if location == loc %}selected{% endif %}>{{ location }}</option>
             {% endfor %}
         </select>
       </div>
@@ -77,11 +71,20 @@
         <select class="form-control" id="dropdown2">
              <option disabled selected value> -- none selected -- </option>
             {% for ty in artist_types %}
-            <option value="{{ ty }}">{{ ty }}</option>
+            <option value="{{ ty }}" {% if artist_type == ty %}selected{% endif %}>{{ ty }}</option>
             {% endfor %}
         </select>
       </div>
-              <div class="col-md-4 dropdown-container">
+              <div class="col-md-2 dropdown-container">
+        <label for="dropdown3">Min Popularity</label>
+        <select class="form-control" id="dropdown3">
+             <option disabled selected value> -- none -- </option>
+            {% for ty in range(10, 100, 10) %}
+            <option value="{{ ty }}" {% if pop == ty %}selected{% endif %}>{{ ty }}</option>
+            {% endfor %}
+        </select>
+      </div>
+              <div class="col-md-2 dropdown-container">
                 <button class="to-bottom btn btn-dark" onClick="searchCriteria()">Search</button>
               </div>
         </div>

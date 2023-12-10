@@ -13,21 +13,12 @@
     <!--LeafletJS files-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
     <!-- Bootstrap CSS / Color Scheme -->
     <link rel="stylesheet" href="../static/bootstrap.css">
     <link rel="stylesheet" href="../static/styles.css">
 
-    <script>
-    function copyToClipboard(link, event) {
-        navigator.clipboard.writeText(link)
-        // Change to copied for 2 seconds
-        event.target.innerHTML = "Copied!"
-        setTimeout(function() {
-            event.target.innerHTML = "Share the Game!"
-        }, 2000)
-    }
-    </script>
 
 </head>
 <body class="wrapper">
@@ -36,39 +27,111 @@
         <div class="row">
             <div class="col-12 d-flex flex-row align-items-center justify-content-between">
                  <a href="/" class="heading-brand">Guess the MC</a>
-                <button onClick="copyToClipboard('localhost:800', event)" class="btn btn-dark">Share the Game!</button>
+                <div>
+                    <a href="/study" class="btn btn-dark">Go to Study!</a>
+                <a href="/game?mode={{next_mode}}" class="btn btn-success svg-icon">
+                    Play {{ next_mode }} Mode!
+                </a>
+                </div>
             </div>
         </div>
     </div>
     </section>
     <section class="bg-gradient">
+        <div class="container">
+  <div class="column">
+    <h3>Instructions</h3>
+    <ul>
+        <li>There are 5 pins on the map below. Click on each one to read more about them. Each one is associated with a number. Enter your guess under the corresponding number!</li>
+        <li>Each incorrect guess costs you a life! Answer everything correctly with lives left to spare? You win!</li>
+    </ul>
+  </div>
+            <div class="container">
         <div class="row">
-            <div class="col-md-8 mx-auto text-center">
-                <p class="lead mb-2">You are in {{ mode }} mode. Want to switch to {{ next_mode }}? Click the button below.</p>
-                <a href="/game?mode={{next_mode}}" class="btn btn-success svg-icon">
-                    Play {{ next_mode }} Mode
-                </a>
+            <div class="col-12 d-flex flex-row align-items-center justify-content-between">
+                <h4 id="lives">Lives Remaining: 5</h4>
+                <h4 id="numCorrect">Number Correct: 0</h4>
             </div>
         </div>
-        <div class="row">
-      <!-- First Half -->
-      <div class="col-md-6 d-flex align-items-center justify-content-center">
-        <!-- Content for the first half -->
-        <h4>Instructions</h4>
-      </div>
+            </div>
+            <form class="d-flex flex-column" onsubmit="onSubmit(event)">
+  <label for="artistDropdown">Select Artist:</label>
+  <select id="artistDropdown" name="artist" class="form-control">
+    <option value="artist1">Artist 1</option>
+    <option value="artist2">Artist 2</option>
+    <option value="artist3">Artist 3</option>
+    <option value="artist4">Artist 4</option>
+    <option value="artist5">Artist 5</option>
+  </select>
 
-      <!-- Second Half -->
-      <div class="col-md-6 d-flex align-items-center justify-content-center">
+  <label for="textInput">Enter Text:</label>
+  <input type="text" id="textInput" name="text" class="form-control" required>
 
-      </div>
-    </div>
+  <button type="submit" class="btn btn-success mt-4">Submit</button>
+</form>
+            </div>
                     <div id="map"></div>
-              <script>
-                let map = L.map('map').setView([{{lat}}, {{lon}}], 2);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors'}).addTo(map);
+       <script src="../static/universal.js" ></script>
+        <script>
 
-                {{markers|safe}}
-            </script>
+            {% for marker in markers %}
+              L.marker([{{ marker['lat'] }}, {{ marker['lon'] }}]).addTo(map)
+              .bindPopup("{{ marker['popup'] }} <br><img width=\"280\" height=\"200\"\n" +
+                  "src=\"{{marker['image']}}\">\n" +
+                  "</img>");
+            {% endfor %}
+        </script>
+
+    <script>
+            // Initialize variables
+            let numCorrect = 0;
+            let lives = 5;
+            let names = {{ names | tojson }};
+            console.log(names)
+            function onSubmit(event) {
+                // Prevent the default form submission
+                event.preventDefault();
+                // Get select and input values
+                let artistValue = document.getElementById("artistDropdown").value;
+                let textValue = document.getElementById("textInput").value;
+                let artistNumber = parseInt(artistValue.slice(-1)) - 1;
+
+                // Check if the text value matches the artist
+                if (textValue.toLowerCase() === names[artistNumber].toLowerCase()) {
+                    // If it does, increment the number correct
+                    numCorrect++;
+                    confetti({
+                      spread: 180
+                    });
+                    document.getElementById("numCorrect").innerHTML = "Number Correct: " + numCorrect;
+                    document.getElementById("artistDropdown").options[artistNumber].disabled = true;
+                    document.getElementById("textInput").value = "";
+
+                    // If the number correct is 5, the user wins
+                    if (numCorrect === 5) {
+                        alert("You win! 🥳");
+                        confetti({
+                          spread: 400
+                        });
+                        setTimeout(function(){ window.location.reload(); }, 2000);
+                    }
+                } else {
+                    // If it doesn't, decrement the number of lives
+                    lives--;
+
+                    document.getElementById("textInput").style.backgroundColor = "red";
+                    setTimeout(function(){ document.getElementById("textInput").style.backgroundColor = "white"; }, 1000);
+
+
+                    document.getElementById("lives").innerHTML = "Lives Remaining: " + lives;
+                    // If the number of lives is 0, the user loses
+                    if (lives === 0) {
+                        alert("You lose! 😭 The correct answers were: " + names.join(", "));
+                        setTimeout(function(){ window.location.reload(); }, 1000);
+                    }
+                }
+            }
+    </script>
     </section>
     {% include 'footer.html' %}
 </body>
